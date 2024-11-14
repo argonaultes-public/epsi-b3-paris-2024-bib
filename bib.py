@@ -1,25 +1,37 @@
 
 class Book:
 
-    def __init__(self, name, author, content):
-        self.__id = 0
-        self.__name = name
+    def __init__(self, title, author, content):
+        self.__title = title
         self.__author = author
         self.__content = content
 
     def __eq__(self, other):
-        return self.__author == other._Book__author and self.__name == other._Book__name
+        return self.__author == other._Book__author and self.__title == other._Book__title
     
     def __hash__(self):
-        return hash((self.__name, self.__author))
+        return hash((self.__title, self.__author))
+
+    def __repr__(self):
+        return f'Book[title: {self.__title}, author: {self.__author}]'
 
 class Lib:
 
-    def __init__(self, current_id_book):
+    def __init__(self):
         self.__books = []
 
     def add_book(self, book):
         self.__books.append(book)
+
+    def display_books(self):
+        for book in self.__books:
+            print(book)
+    
+    def remove_book(self, book_to_remove):
+        try:
+            self.__books.remove(book_to_remove)
+        except ValueError:
+            print(f'Unable to remove {book_to_remove}')
 
 class BookShop:
 
@@ -30,6 +42,7 @@ class BookShop:
 class Bib:
 
     def __init__(self):
+        self.__lib = Lib()
         self.actions = {
             'new': self.new_book,
             'delete': self.delete_book,
@@ -42,12 +55,16 @@ class Bib:
         title = input('title: ')
         author = input('author: ')
         content = input('content: ')
+        self.__lib.add_book(Book(title, author, content))
 
     def delete_book(self):
-        id_book = input('id book to destroy: ')
+        title = input('title: ')
+        author = input('author: ')
+        self.__lib.remove_book(Book(title, author, None))
+
 
     def list_books(self):
-        print('list books')
+        self.__lib.display_books()
 
     def display_help(self):
         print('[new, delete, list, q (quit), help]')
