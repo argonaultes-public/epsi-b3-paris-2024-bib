@@ -14,5 +14,3 @@
    5. afficher le détail d'un livre
    6. acheter un livre
 
-
-
